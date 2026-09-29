@@ -22,8 +22,7 @@ spec:
       containers:
         - name: react-ros-robot2
           image: vishal6363/react-ros-robot2:latest
+          imagePullPolicy: Always
 
           ports:
             - containerPort: 80
-
-          imagePullPolicy: Always

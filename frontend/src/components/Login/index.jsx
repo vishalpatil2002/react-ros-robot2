@@ -63,7 +63,7 @@ const Login = () => {
             <div className={styles.password_container}>
               <input
                 type={showPassword ? "text" : "password"}
-                placeholder="Password"
+                placeholder="Password"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
                 name="password"
                 onChange={handleChange}
                 value={data.password}
@@ -71,7 +71,7 @@ const Login = () => {
                 // className={styles.input}
                 style={{
                   border: "none",
-                  backgroundColor: "#edf5f3",
+                  backgroundColor: "#edf5f3",                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
                   outline: "none",
                   width: "370px",
                 }}

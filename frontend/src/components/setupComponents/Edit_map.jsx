@@ -300,7 +300,7 @@ useEffect(() => {
 
 
   const saveEditedImage = async () => {
-    const editedMapName = prompt("Enter your map name which you have edited:");
+    const editedMapName = prompt("Press ok map name will save automatically with version",selectedMap);
     if (!editedMapName) return;
 
     const canvas = canvasRef.current;

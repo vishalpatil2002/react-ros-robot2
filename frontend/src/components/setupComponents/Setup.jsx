@@ -18,6 +18,11 @@ const Setup = () => {
   // const [selectedMap, setSelectedMap] = useState("");
 
   const { selectedMap, setSelectedMap } = useContext(MissionContext);
+  const [processStatus, setProcessStatus] = useState({
+  gazebo: "stopped",
+  navigation: "stopped",
+  slam: "stopped",
+});
 
   // initialize socket connection
   const socket = io(`http://${ip}:${port}`);
@@ -163,7 +168,7 @@ const Setup = () => {
     }
   };
 
-const editedRegex = /_edited(_v\d+)?$/;
+const editedRegex = /_v\d+$/;
 
 const modifiedMaps = maps.filter(mapName => editedRegex.test(mapName));
 const otherMaps = maps.filter(mapName => !editedRegex.test(mapName));
@@ -173,96 +178,130 @@ const otherMaps = maps.filter(mapName => !editedRegex.test(mapName));
       if (storedMaps && Array.isArray(storedMaps)) {
         setSelectedMaps(storedMaps);
       }
+
+  const fetchStatus = async () => {
+    try {
+      const res = await fetch("/process_status");
+      const data = await res.json();
+      setProcessStatus(data);
+    } catch (err) {
+      console.error("Failed to fetch process status", err);
+    }
+  };
+
+  fetchStatus();
+  const interval = setInterval(fetchStatus, 3000); // refresh every 3s
+
+  return () => clearInterval(interval);
   }, []);
 
+  const StatusBadge = ({ label, status }) => (
+  <span style={{
+    marginRight: "15px",
+    fontWeight: "bold",
+    color: status === "running" ? "green" : "red"
+  }}>
+    {status === "running" ? "🟢" : "🔴"} {label}: {status === "running" ? "Running" : "Not Running"}
+  </span>
+);
+
   return (
-    <div style={{ marginTop: "100px", marginLeft: "50px" }}>
-      <h3>Setup your taurus</h3>
-      <div className="individual-sections">
-        <h4>Mapping Section</h4>
-        <button
-          className="setupSection-button"
-          onClick={() => {
-            launchGazebo(), launchSlamGmapping(), handleOpenModal();
-          }}
-        >
-          <span>+</span>
-          <h6>Create Map</h6>
-        </button>
-        <CreateMap show={showModal} handleClose={handleCloseModal} />
-        <button className="setupSection-button"  onClick={() => handleOpenModal1()}>
-             <img
-                src={edit}
-                alt="zoomIn-icon"
-                style={{ width: "20px", height: "20px", }}
-              />
-          <h6 style={{marginTop:"5px"}}>Edit Map</h6>
+<div className="setup-container">
+ <h3>
+  Setup your taurus
+  <div style={{ marginTop: "8px", fontSize: "14px" }}>
+    <StatusBadge label="Motor" status={processStatus.gazebo} />
+    <StatusBadge label="Navigation" status={processStatus.navigation} />
+  </div>
+</h3>
+
+
+  <div className="two-column-layout">
+    {/* LEFT SIDE = Mapping + Manual Control */}
+    <div className="left-column">
+      <div className="top-sections">
+        <div className="individual-sections">
+          <h4>Mapping Section</h4>
+          <button className="setupSection-button"
+            onClick={() => {
+              launchGazebo(); 
+              launchSlamGmapping();
+              handleOpenModal();
+            }}>
+            <span>+</span>
+            <h6>Create Map</h6>
           </button>
-        <EditMap showEdit={isOpen} EditHandleClose={handleCloseModal1} />
-      </div>
-      <div className="individual-sections">
-        <h4>Manual Control Section</h4>
-        <button className="setupSection-button" onClick={launchGazebo}>
-          <h6>Start Manual Control</h6>
-        </button>
-        <button
-          className="setupSection-button"
-          onClick={() => terminateProcess("gazebo")}
-        >
-          <h6>Stop Manual Control</h6>
-        </button>
-      </div>
-      <div className="individual-sections">
-        <h4>Navigation Section</h4>
-        <h6>Please select a map from the below dropdown</h6>
-        <label>Select Navigation Type:</label>
-    <select value={navigationType} onChange={(e) => {
-      setNavigationType(e.target.value);
-      setSelectedMaps([]); // Reset selected maps on navigation type change
-    }}>
-      <option value="normal">Navigation without Restricted Area</option>
-      <option value="restricted">Navigation with Restricted Area</option>
-    </select>
 
-    {modifiedMaps.length > 0 && (
-          <div>
-            <label>Select Modified/Edited Map(s):</label>
-            <select onChange={handleMapSelection} disabled={modifiedMaps.length === 0 || navigationType === "normal"}>
-              <option value="">Select a modified/edited map</option>
-              {modifiedMaps.map((mapName, index) => (
-                <option key={index} value={mapName}>{mapName}</option>
-              ))}
-            </select>
-          </div>
-        )}
+          <CreateMap show={showModal} handleClose={handleCloseModal} />
 
+          <button className="setupSection-button" onClick={handleOpenModal1}>
+            <img src={edit} alt="edit-icon" style={{ width: "20px", height: "20px" }} />
+            <h6 style={{ marginTop: "5px" }}>Edit Map</h6>
+          </button>
+          <EditMap showEdit={isOpen} EditHandleClose={handleCloseModal1} />
+        </div>
 
+        <div className="individual-sections">
+          <h4>Manual Control Section</h4>
 
-        
-    {otherMaps.length > 0 && (
-          <div>
-            <label>Select Map(s):</label>
-            <select onChange={handleMapSelection} disabled={otherMaps.length === 0}>
-              <option value="">Select a map</option>
-              {otherMaps.map((mapName, index) => (
-                <option key={index} value={mapName}>{mapName}</option>
-              ))}
-            </select>
-          </div>
-        )}
-        
-    
-    <p>Selected Maps: {selectedMaps.join(", ")}</p>
-    
-    <button className="setupSection-button" onClick={launchNavigation} disabled={selectedMaps.length === 0}><h6>Start Navigation</h6></button>
-    <button
-          className="setupSection-button"
-          onClick={() => terminateProcess("navigation")}
-        >
-          <h6>Stop Navigation</h6>
-        </button>
+          <button className="setupSection-button" onClick={launchGazebo}>
+            <h6>Start Manual Control</h6>
+          </button>
+
+          <button className="setupSection-button" onClick={() => terminateProcess("gazebo")}>
+            <h6>Stop Manual Control</h6>
+          </button>
+        </div>
       </div>
     </div>
+
+    {/* RIGHT SIDE = Navigation Section */}
+    <div className="right-column">
+      <div className="individual-sections">
+        <h4>Navigation Section</h4>
+        <h6>Please select a map from the dropdown</h6>
+
+        <label>Select Navigation Type:</label>
+        <select value={navigationType} onChange={(e) => { setNavigationType(e.target.value); setSelectedMaps([]); }}>
+          <option value="normal">Navigation without Restricted Area</option>
+          <option value="restricted">Navigation with Restricted Area</option>
+        </select>
+
+        {otherMaps.length > 0 && (
+          <>
+            <label>Select Map(s):</label>
+            <select onChange={handleMapSelection}>
+              <option value="">Select a map</option>
+              {otherMaps.map((m, i) => <option key={i}>{m}</option>)}
+            </select>
+          </>
+        )}
+
+        {modifiedMaps.length > 0 && (
+          <>
+            <label>Select Modified/Edited Map(s):</label>
+            <select onChange={handleMapSelection} disabled={navigationType === "normal"}>
+              <option value="">Select modified map</option>
+              {modifiedMaps.map((m, i) => <option key={i}>{m}</option>)}
+            </select>
+          </>
+        )}
+
+        <p>Selected Maps: {selectedMaps.join(", ")}</p>
+
+        <div className="button-group">
+          <button className="setupSection-button" onClick={launchNavigation} disabled={selectedMaps.length === 0}>
+            <h6>Start Navigation</h6>
+          </button>
+          <button className="setupSection-button" onClick={() => terminateProcess("navigation")}>
+            <h6>Stop Navigation</h6>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
   );
 };
 

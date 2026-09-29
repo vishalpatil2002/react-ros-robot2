@@ -3,6 +3,8 @@ kind: Service
 
 metadata:
   name: react-ros-robot2
+  labels:
+    app: react-ros-robot2
 
 spec:
   type: NodePort

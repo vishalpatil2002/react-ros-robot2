@@ -1,27 +1,93 @@
-
+/* Headings */
 h3, h4, h6 {
   margin: 0 0 10px;
   color: #333;
 }
 
+h3 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 40px;
+}
+
 h6 {
-  margin-bottom: 0px;
+  margin-bottom: 0;
+  font-size: 14px;
+  color: #555;
 }
 
-.individual-sections{
-  margin-top: 50px;
+/* Main container */
+.setup-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
+/* ------------------------------ */
+/* TWO COLUMN LAYOUT              */
+/* ------------------------------ */
+.two-column-layout {
+  display: flex;
+  width: 100%;
+  max-width: 1300px;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.left-column {
+  flex: 1;
+  min-width: 450px;
+  max-width: 600px;
+}
+
+.right-column {
+  flex: 1;
+  min-width: 450px;
+  max-width: 600px;
+}
+
+/* ------------------------------ */
+/* SECTION CARDS                  */
+/* ------------------------------ */
+.individual-sections {
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.individual-sections h4 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 5px;
+}
+
+/* Buttons */
 .setupSection-button {
   background-color: #d4a185;
   color: white;
   border: none;
-  padding: 10px 15px;
-  margin: 5px;
+  padding: 12px 20px;
+  margin: 5px 0;
   border-radius: 5px;
   font-size: 14px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
   transition: background-color 0.3s ease;
+  width: 100%;
+  max-width: 250px;
 }
 
 .setupSection-button:hover {
@@ -35,33 +101,92 @@ h6 {
 
 .setupSection-button span {
   font-size: 18px;
-  margin-right: 5px;
 }
 
+/* Dropdowns */
 select {
-  width: 80%;
+  width: 100%;
+  max-width: 300px;
   padding: 10px;
-  margin: 10px ;
+  margin: 5px 0 15px 0;
   background-color: #d6d2d0;
   border: 1px solid #ccc;
   border-radius: 7px;
-}
-
-h6 {
   font-size: 14px;
-  color: #555;
 }
 
-.section {
-  padding: 15px 0;
-  border-top: 1px solid #e0e0e0;
+/* Labels */
+label {
+  display: block;
+  font-weight: 500;
+  margin-top: 10px;
 }
 
-.section:first-of-type {
-  border-top: none;
+/* Buttons container */
+.button-group {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-top: 10px;
 }
 
-.section h4 {
-  margin-bottom: 15px;
+/* Paragraph */
+p {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #333;
 }
+
+/* ------------------------------ */
+/* RESPONSIVE DESIGN              */
+/* ------------------------------ */
+
+/* Tablet < 1024px */
+@media (max-width: 1024px) {
+  .two-column-layout {
+    flex-direction: row;
+  }
+
+  .left-column,
+  .right-column {
+    min-width: 350px;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+}
+
+/* Mobile < 768px */
+@media (max-width: 768px) {
+  .setup-container {
+    padding: 10px;
+  }
+
+  .two-column-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .left-column,
+  .right-column {
+    width: 100%;
+    max-width: 95%;
+  }
+
+  .individual-sections {
+    padding: 15px;
+  }
+
+  .setupSection-button {
+    width: 100%;
+  }
+
+  select {
+    width: 100%;
+  }
+}
+
+
 

@@ -8,6 +8,7 @@ export const MissionProvider = ({ children }) => {
     return storedMission === "Aborted" ? "No active task" : storedMission || "";
   });
   const [activateMission, setActiveMission] = useState(null);
+  const [activeQueuePosition, setActiveQueuePosition] = useState(null);
 
   // For setup screen to add and remove map
   const [selectedMap, setSelectedMapState] = useState(() => {
@@ -47,6 +48,8 @@ export const MissionProvider = ({ children }) => {
         setActiveMission,
         selectedMap,
         setSelectedMap,
+        setActiveQueuePosition,
+        activeQueuePosition,
       }}
     >
       {children}

@@ -20,6 +20,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "../../styles/PositionData.css";
 import { MissionContext } from "../../context/MissionContext";
 import config from "../../scripts/config.js";
+import { useNavigate } from "react-router-dom";
 
 const ip = config.IP;
 const port = config.PORT;
@@ -47,7 +48,9 @@ const PositionData = ({ isMenuOpen }) => {
   const [draggedPositionName, setDraggedPositionName] = useState(null);
   const [registeredUsers, setRegisteredUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
+  const [dropSelections, setDropSelections] = useState({});
   const socket = io(`http://${ip}:${port}`);
+  const navigate = useNavigate();
 
   const fetchData = async () => {
     try {
@@ -55,8 +58,9 @@ const PositionData = ({ isMenuOpen }) => {
       console.log(response.data)
       setPositions(response.data);
     } catch (error) {
-      alert("Navigate to setup screen and select a map from the dropdown");
-      console.error("Error fetching data:", error);
+      // alert("Navigate to setup screen and select a map from the dropdown");
+      // console.error("Error fetching data:", error);
+      navigate("/setup")
     }
   };
 
@@ -96,7 +100,9 @@ const PositionData = ({ isMenuOpen }) => {
   };
 
   useEffect(() => {
-    const mapName = localStorage.getItem("selectedMap");
+    const mapName = localStorage.getItem("selectedMaps");
+    console.log("mapnames ",mapName)
+    if(!mapName)       alert("Navigate to setup screen and select a map from the dropdown");
     if (mapName) {
       fetch(`http://${ip}:${port}/api/sendUserName`, {
         method: "POST",
@@ -285,8 +291,22 @@ const PositionData = ({ isMenuOpen }) => {
       const positionId = typeof item === "string" ? item : item.positionId;
       const waitTime =
         nameQueue[index] === "Wait" ? waitTimes[index] || 0 : null;
-      return { positionId, waitTime };
+  
+      let dropPositionId = null;
+  
+      if (nameQueue[index] === "Drop") {
+        const selectedDropName = dropSelections[index];
+        const dropPosition = positions.find((pos) => pos.name === selectedDropName);
+        dropPositionId = dropPosition?._id || null;
+      }
+  
+      return {
+        positionId,
+        waitTime,
+        ...(dropPositionId && { dropPositionId })  // add only if not null
+      };
     });
+  
 
     const mission = { missionName, queue: missionQueueWithWaitTimes };
 
@@ -306,6 +326,7 @@ const PositionData = ({ isMenuOpen }) => {
           setIsEditing(false);
           setEditingMissionName("");
           setWaitTimes(null);
+          setDropSelections({});
         } else {
           console.error("Error sending queue:", response.statusText);
         }
@@ -679,7 +700,7 @@ const PositionData = ({ isMenuOpen }) => {
               >
                 {nameQueue[index]}
               </Button>
-              {nameQueue[index] == "Wait" ? (
+              {nameQueue[index] === "Wait" ? (
                 <div>
                   <input
                     style={{
@@ -698,7 +719,35 @@ const PositionData = ({ isMenuOpen }) => {
                     }
                   />
                 </div>
+              ) : nameQueue[index] === "Drop" ? (
+                <div>
+                  <select
+                    style={{
+                      height: "35px",
+                      border: "1px solid #ccc",
+                      borderRadius: "4px",
+                    }}
+                    value={dropSelections?.[index] || ""}
+                    onChange={(e) =>
+                      setDropSelections((prevSelections) => ({
+                        ...prevSelections,
+                        [index]: e.target.value,
+                      }))
+                    }
+                  >
+                    <option value="" disabled>
+                      Select position
+                    </option>
+                    {positions.map((pos, i) => (
+                      <option key={i} value={pos.name}>
+                        {pos.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               ) : null}
+
+
               {/* <i
                 className="fa-solid fa-trash-can"
                 style={{

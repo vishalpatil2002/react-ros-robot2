@@ -1,5 +1,5 @@
 import React from "react";
-import PositionData from "./MissionComponents/PositonData";
+import PositionData from "./MissionComponents/PositionData";
 import "../styles/MissionControl.css";
 const MissionControl = ({ isMenuOpen }) => {
   return (

@@ -31,27 +31,18 @@ const MissionLogs = () => {
         );
         console.log('Mission Logs respnse:', response.data)
         if (Array.isArray(response.data)) {
-          const sortedLogs = response.data.sort((a, b) => {
-            const dateA = new Date(
-              a.completionDateTime
-                .split(" ")[0]
-                .split("-")
-                .reverse()
-                .join("-") +
-                " " +
-                a.completionDateTime.split(" ")[1]
-            );
-            const dateB = new Date(
-              b.completionDateTime
-                .split(" ")[0]
-                .split("-")
-                .reverse()
-                .join("-") +
-                " " +
-                b.completionDateTime.split(" ")[1]
-            );
+          const sortedLogs = response.data
+          .filter(log => typeof log.completionDateTime === "string" && log.completionDateTime.includes(" "))
+          .sort((a, b) => {
+            const [dateStrA, timeStrA] = a.completionDateTime.split(" ");
+            const [dateStrB, timeStrB] = b.completionDateTime.split(" ");
+        
+            const dateA = new Date(dateStrA.split("-").reverse().join("-") + " " + timeStrA);
+            const dateB = new Date(dateStrB.split("-").reverse().join("-") + " " + timeStrB);
+        
             return dateB - dateA;
           });
+        
           setMissionLogs(sortedLogs);
         } else {
           setMissionLogs([]);

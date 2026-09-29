@@ -3,10 +3,13 @@ import "../../styles/Operatorpanel.css";
 import config from "../../scripts/config.js";
 import Crypt from "../../scripts/cryption";
 import ROSLIB from "roslib";
+import io from "socket.io-client";
 
 const ip = config.IP;
 const port = config.PORT;
 const webSocketPort = config.WEBSOCKET_PORT;
+const socket = io(`http://${ip}:${port}`);
+
 
 const TodaysTasks = () => {
   const [tasksByDate, setTasksByDate] = useState({});
@@ -29,6 +32,14 @@ const TodaysTasks = () => {
     camera: false,
   });
 
+  socket.on("missionStatus", (value) => {
+    if (value === "activated") {
+      setActivationStatus("Mission activated successfully!");
+    }
+    if(value == "completed"){
+      setActivationStatus('completed')
+    }
+  })
   // Fetch today's tasks on component mount
   useEffect(() => {
     const fetchTodaysTasks = async () => {
@@ -179,13 +190,26 @@ const TodaysTasks = () => {
     setRos(connectToRos);
   };
 
+  
   // Activate the selected mission
   const activateMission = async () => {
     if (!selectedMission) {
       alert("Choose a mission");
       return;
     }
-
+    // const missionParam = new ROSLIB.Param({
+    //   ros: ros,
+    //   name: "pauseplay"
+    // });
+    
+    // let isActive = missionParam.get();
+   
+    let isActive = localStorage.getItem("missionStatus")
+    console.log("isActive", isActive);
+    if(isActive !== 'Completed'){
+      alert("Mission Already Running");
+      return
+    } 
     await healthCheck();
     console.log("inside activate task");
 
@@ -227,7 +251,7 @@ const TodaysTasks = () => {
       const { id: missionId, inputValue, missionName } = selectedMission;
 
       localStorage.setItem("activeMissionId", missionId);
-      const response = await fetch(`http://${ip}:${port}/api/activeMission`, {
+      const response = await fetch(`/api/activeMission`, {
         method: "POST",
         body: JSON.stringify({ missionId, missionName, inputValue }),
         headers: {

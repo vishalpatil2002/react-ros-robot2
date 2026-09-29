@@ -23,27 +23,31 @@ const ip = config.IP;
 const port = config.PORT;
 const webSocketPort = config.WEBSOCKET_PORT;
 
+const socket = io(`http://${ip}:${port}`);
+
 const Header = ({ toggleMenu, toggleLaunchers }) => {
   const [ros, setRos] = useState(null);
   const [missionState, setMissionState] = useState("paused");
   const [pausedBtnText, setPausedBtnText] = useState("-");
-  const [batteryPercentage] = useState(null);
   // const pauseBtnRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isHoldActive, setIsHoldActive] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const { activeMission, setactive } = useContext(MissionContext);
+  const [activePosition, setActivePosition] = useState("");
+  const { setActiveQueuePosition } = useContext(MissionContext);
 
   const { selectedMap, setSelectedMap } = useContext(MissionContext);
   const [alarmStatus, setAlarmStatus] = useState(null);
   const [alarmCount, setAlarmCount] = useState(() => {
     return parseInt(localStorage.getItem("alarmCount")) || 0;
   });
+  const [isActivated, setIsActivated] = useState(false);
+  const [batteryPercentage, setBatteryPercentage] = useState(0);
 
   const navigate = useNavigate();
 
-  const socket = io(`http://${ip}:${port}`);
 
   useEffect(() => {
     localStorage.setItem("alarmCount", alarmCount);
@@ -90,6 +94,22 @@ const Header = ({ toggleMenu, toggleLaunchers }) => {
   };
   // const userRole = Crypt.decrypt(localStorage.getItem("role"));
 
+
+  useEffect(() => {
+    const savedStatus = localStorage.getItem("missionStatus");
+
+    if (savedStatus === "activated") {
+      setPausedBtnText("Playing");
+      setIsPlaying(true);
+    } else if (savedStatus === "paused") {
+      setPausedBtnText("Paused");
+      setIsPlaying(false);
+    } else {
+      setPausedBtnText("_");
+      setIsPlaying(false);
+    }
+  }, []);
+
   const handleRegister = () => {
     // userRole === "Operator"
     //   ? (window.location.href = "/unauthorized")
@@ -106,30 +126,39 @@ const Header = ({ toggleMenu, toggleLaunchers }) => {
     setAlarmCount(0);
   };
   useEffect(() => {
-    const storedPausedBtnText = localStorage.getItem("pausedBtnText");
-    const storedActiveMission = localStorage.getItem("activeMission");
+        //removed from
 
-    if (storedActiveMission) {
-      setactive(storedActiveMission);
-    }
+    // const storedPausedBtnText = localStorage.getItem("pausedBtnText");
+    // const storedActiveMission = localStorage.getItem("activeMission");
+    //removed till
 
-    if (storedPausedBtnText) {
-      setPausedBtnText(storedPausedBtnText);
-    }
+    // if (storedActiveMission) {
+    //   setactive(storedActiveMission);
+    // }
 
-    if (storedActiveMission === "No active task") {
-      setPausedBtnText("_");
-    } else if (storedActiveMission === "Aborted") {
-      setPausedBtnText("Canceled");
-    } else if (!storedPausedBtnText && activeMission === "No active task") {
-      setPausedBtnText("_");
-    }
+    // if (storedPausedBtnText) {
+    //   setPausedBtnText(storedPausedBtnText);
+    // }
+
+        //removed from
+    // if (storedActiveMission === "No active task") {
+    //   console.log("stored active mission", storedActiveMission)
+    //   setPausedBtnText("_");
+    // } else if (storedActiveMission === "Aborted") {
+    //   setPausedBtnText("Canceled");
+    // }
+        //removed till
+
+    //  else if (!storedPausedBtnText && activeMission === "No active task") {
+    //   setPausedBtnText("_");
+    // }
 
     const newRos = new ROSLIB.Ros({
       url: `ws://${ip}:${webSocketPort}`,
     });
     newRos.on("connection", () => {
       console.log("Connected to WebSocket ROS server");
+      setRos(newRos);
     });
 
     newRos.on("error", (error) => {
@@ -141,47 +170,54 @@ const Header = ({ toggleMenu, toggleLaunchers }) => {
     });
     const chargeTopic = new ROSLIB.Topic({
       ros: newRos,
-      name: "/taurus_status",
-      messageType: "hw_t/taurus_bms",
+      name: "/bms",
+      messageType: "hw_t/bms",
     });
 
     chargeTopic.subscribe((message) => {
-      setBatteryPercentage(message.soc.toFixed(2));
+      setBatteryPercentage(message.soc);
     });
 
-    socket.on("missionComplete", handleMissionComplete);
-    socket.on("activeMissionUpdate", (missionName) => {
-      setactive(missionName);
-      if (missionName === "No active task") {
-        setPausedBtnText("_");
-        localStorage.setItem("pausedBtnText", "_");
-      }
-      if (missionName === "Aborted") {
-        setPausedBtnText("Canceled");
-        localStorage.setItem("pausedBtnText", "Canceled");
-      } else {
-        setPausedBtnText("Playing");
-        localStorage.setItem("pausedBtnText", "Playing");
-        // if(pauseBtnRef.current){
-        //   pauseBtnRef.current.style.backgroundColor = 'green'
-        //   pauseBtnRef.current.style.color = 'white';
-        // }
-      }
-      localStorage.setItem("activeMission", missionName);
-    });
-    socket.on("updatePausedBtnText", (text) => {
-      setPausedBtnText(text);
-      localStorage.setItem("pausedBtnText", text);
-    });
-    socket.on("updatecanceledBtnText", (text) => {
-      setPausedBtnText(text);
-      setactive("Aborted");
-      localStorage.setItem("pausedBtnText", text);
-      localStorage.setItem("activeMission", "Aborted");
-    });
+    //removed from
+    // socket.on("missionComplete", handleMissionComplete);
+        //removed till
+
+    // socket.on("activeMissionUpdate", (missionName) => {
+    //   setactive(missionName);
+    //   if (missionName === "No active task") {
+    //     setPausedBtnText("_");
+    //     localStorage.setItem("pausedBtnText", "_");
+    //   }
+    //   if (missionName === "Aborted") {
+    //     setPausedBtnText("Canceled");
+    //     localStorage.setItem("pausedBtnText", "Canceled");
+    //   } else {
+    //     setPausedBtnText("Playing");
+    //     localStorage.setItem("pausedBtnText", "Playing");
+    //     // if(pauseBtnRef.current){
+    //     //   pauseBtnRef.current.style.backgroundColor = 'green'
+    //     //   pauseBtnRef.current.style.color = 'white';
+    //     // }
+    //   }
+    //   // localStorage.setItem("activeMission", missionName);
+    //   console.log("mission name", missionName)
+    // });
+
+        //removed from
+    // socket.on("updatePausedBtnText", (text) => {
+    //   setPausedBtnText(text);
+    //   localStorage.setItem("pausedBtnText", text);
+    // });
+    // socket.on("updatecanceledBtnText", (text) => {
+    //   setPausedBtnText(text);
+    //   setactive("Aborted");
+    //   localStorage.setItem("pausedBtnText", text);
+    //   localStorage.setItem("activeMission", "Aborted");
+    // });
+    //removed till
 
     socket.on("Alarm", (message) => {
-//      alert(message.message)
+      //      alert(message.message)
       // setAlarmStatus(message);
       console.log("alarm message", message);
       setAlarmCount((prevCount) => prevCount + 1);
@@ -189,16 +225,63 @@ const Header = ({ toggleMenu, toggleLaunchers }) => {
 
     if (pausedBtnText === "Playing") {
       setIsPlaying(true);
-    } else {
-      setIsPlaying(false);
     }
+    // else {
+    //   console.log("made falsee")
+    //   setIsPlaying(false);
+    // }
+
+    socket.on("missionStatus", (value) => {
+      console.log(value, 'logged value');
+      if (value === "activated" || value == "play") {
+        setPausedBtnText("Playing");
+        console.log("value", value)
+        setIsPlaying(true);
+        localStorage.setItem("missionStatus", "activated");
+      } else if (value === "paused") {
+        setPausedBtnText("Paused");
+        setIsPlaying(false);
+        localStorage.setItem("missionStatus", "paused");
+      } else if (value === "completed") {
+        setPausedBtnText("Completed");
+        setIsPlaying(false);
+        localStorage.setItem("missionStatus", "Completed");
+      } else {
+        console.log(value, 'logged value')
+        setPausedBtnText("_");
+        console.log("making false if _")
+        setIsPlaying(false);
+        localStorage.setItem("missionStatus", "_");
+      }
+    });
+
+
+    const interval = setInterval(() => {
+      const param = new ROSLIB.Param({
+        ros: newRos,
+        name: "/positionName",
+      });
+
+      param.get((value) => {
+        // console.log("Received ROS param:", value);
+        setActivePosition(value);
+        setActiveQueuePosition(value)
+      });
+    }, 1000);
+
 
     return () => {
-      socket.off("missionComplete", handleMissionComplete);
-      socket.off("activeMissionUpdate");
-      socket.off("updatePausedBtnText");
-      socket.off("updatecanceledBtnText");
+          //removed from
+
+      // socket.off("missionComplete", handleMissionComplete);
+      // socket.off("activeMissionUpdate");
+      // socket.off("updatePausedBtnText");
+      // socket.off("updatecanceledBtnText");
+          //removed till
+
+      socket.off("missionStatus");
       chargeTopic.unsubscribe();
+      clearInterval(interval);
     };
     setRos(newRos);
     // Clean up ROS connection on unmount
@@ -207,24 +290,62 @@ const Header = ({ toggleMenu, toggleLaunchers }) => {
     // };
   }, [pausedBtnText]);
 
-  const handleMissionComplete = () => {
-    setactive("No active task");
-    setPausedBtnText("_");
-    localStorage.setItem("pausedBtnText", "_");
-    localStorage.setItem("activeMission", "No active task");
-    socket.emit("updatePausedBtnText", "_");
 
-    const missionName = document
-      .getElementById("activemissionname")
-      .innerText.replace("Task: ", "");
-    const status = document.getElementById("pausedbtn").innerText;
+  useEffect(() => {
+    if (!ros) return;
 
-    // Adding some logic to emit this only once and not thrice ---- Bug fix -Shoaib
-    if (missionName !== "No active task") {
-      socket.emit("missionComplete1", { missionName, status });
-    }
-    // socket.emit("missionComplete1", { missionName, status });
-  };
+    const param = new ROSLIB.Param({
+      ros: ros,
+      name: "/activationControl",
+    });
+
+    const getParam = () => {
+      param.get((value) => {
+        // console.log("activationControl param:", value);
+        setIsActivated(value === 1);
+      });
+    };
+
+    getParam();
+    const interval = setInterval(getParam, 1000);
+    return () => clearInterval(interval);
+  }, [ros]);
+
+  useEffect(() => {
+    socket.on("missionNameUpdate", (missionName) => {
+      console.log("🚀 Received missionNameUpdate:", missionName);
+      setactive(missionName);
+    });
+
+    return () => {
+      socket.off("missionNameUpdate");
+    };
+  }, []);
+
+      //removed from
+
+  // const handleMissionComplete = () => {
+  //   // setactive("No active task");
+  //   setPausedBtnText("_");
+  //   localStorage.setItem("pausedBtnText", "_");
+  //   // localStorage.setItem("activeMission", "No active task");
+  //   console.log("setting to localstorage of activemission")
+  //   socket.emit("updatePausedBtnText", "_");
+
+  //   const missionName = document
+  //     .getElementById("activemissionname")
+  //     .innerText.replace("Task: ", "");
+  //   const status = document.getElementById("pausedbtn").innerText;
+
+  //   // Adding some logic to emit this only once and not thrice ---- Bug fix -Shoaib
+  //   if (missionName !== "No active task") {
+  //     socket.emit("missionComplete1", { missionName, status });
+  //   }
+  //   // socket.emit("missionComplete1", { missionName, status });
+  // };
+    //removed till
+
+
 
   const changepauseButtonColor = document.getElementById("pausedbtn");
 
@@ -237,7 +358,10 @@ const Header = ({ toggleMenu, toggleLaunchers }) => {
     // }
     changepauseButtonColor.style.backgroundColor = "green";
     changepauseButtonColor.style.color = "white";
-    localStorage.setItem("pausedBtnText", "Playing");
+        //removed from
+    // localStorage.setItem("pausedBtnText", "Playing");
+        //removed till
+
   };
 
   const pauseMission = () => {
@@ -249,22 +373,30 @@ const Header = ({ toggleMenu, toggleLaunchers }) => {
     // }
     changepauseButtonColor.style.backgroundColor = "orange";
     changepauseButtonColor.style.color = "white";
-    localStorage.setItem("pausedBtnText", "Paused");
+        //removed from
+    // localStorage.setItem("pausedBtnText", "Paused");
+        //removed till
+
   };
 
   const togglePlayPause = () => {
     if (isPlaying) {
+      socket.emit("setMissionParam", "paused");
       pauseMission();
       setPausedBtnText("Paused");
       setIsPlaying(false);
     } else {
+      socket.emit("setMissionParam", "play");
       playMission();
       setPausedBtnText("Playing");
       setIsPlaying(true);
     }
   };
 
-  const shouldShowPauseButton = pausedBtnText === "Playing";
+  // const shouldShowPauseButton = pausedBtnText === "Playing";
+  const shouldShowPauseButton = isPlaying;
+  console.log("shouldShowPauseBuuton", shouldShowPauseButton)
+
 
   const cancelMission = () => {
     const missionName = document
@@ -276,8 +408,14 @@ const Header = ({ toggleMenu, toggleLaunchers }) => {
     changepauseButtonColor.style.backgroundColor = "red";
     changepauseButtonColor.style.color = "white";
     localStorage.setItem("activeMission", "Aborted");
-    localStorage.setItem("pausedBtnText", "Canceled");
+        //removed from
+    // localStorage.setItem("pausedBtnText", "Canceled");
+        //removed till
+
   };
+
+
+
   const updateUserName = () => {
     const userName = Crypt.decrypt(localStorage.getItem("UserName"));
     // const role = userRole;
@@ -300,25 +438,25 @@ const Header = ({ toggleMenu, toggleLaunchers }) => {
   const toggleHold = async () => {
     setLoading(true);
 
-    const holdState = isHoldActive ? 0 : 1; // When toggled ON → release (1)
+    const holdState = isHoldActive ? 0 : 1;
     console.log(`Sending hold state: ${holdState}`);
 
     try {
-        const response = await fetch(`http://${ip}:${port}/connect-to-robot`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ hold: holdState }),
-        });
+      const response = await fetch(`http://${ip}:${port}/connect-to-robot`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ hold: holdState }),
+      });
 
-        const result = await response.json();
-        console.log(result.message || result.error);
-        setIsHoldActive((prev) => !prev); // Update toggle state
+      const result = await response.json();
+      console.log(result.message || result.error);
+      setIsHoldActive((prev) => !prev);
     } catch (error) {
-        console.error("Error:", error);
+      console.error("Error:", error);
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
-};
+  };
 
 
   return (
@@ -339,10 +477,20 @@ const Header = ({ toggleMenu, toggleLaunchers }) => {
       </div>
       <div id="right">
         <div id="playpausebuttons">
-          <div id="toggleButton">
+          <div
+            id="toggleButton"
+            className={!isActivated ? "disabled-button-wrapper" : ""}
+            title={!isActivated ? "⚠️ Start A Mission To Enable" : ""}
+          >
             <button
-              onClick={togglePlayPause}
-              style={{ backgroundColor: "#e2d1c3", border: "none" }}
+              onClick={isActivated ? togglePlayPause : null}
+              disabled={!isActivated}
+              style={{
+                backgroundColor: "#e2d1c3",
+                border: "none",
+                cursor: isActivated ? "pointer" : "not-allowed",
+                opacity: isActivated ? 1 : 0.5,
+              }}
             >
               {shouldShowPauseButton ? (
                 <img
@@ -361,33 +509,46 @@ const Header = ({ toggleMenu, toggleLaunchers }) => {
               )}
             </button>
           </div>
-          <div id="emgncybutton">
+
+          <div
+            id="emgncybutton"
+            className={!isActivated ? "disabled-button-wrapper" : ""}
+            title={!isActivated ? "⚠️ Start A Mission To Enable" : ""}
+          >
             <img
               src={emergency}
               className="icn3 menuicn"
               id="cancelmission"
               alt="emergency-icon"
-              onClick={cancelMission}
-              style={{ width: "50px", height: "50px" }}
+              onClick={isActivated ? cancelMission : null}
+              style={{
+                width: "50px",
+                height: "50px",
+                cursor: isActivated ? "pointer" : "not-allowed",
+                opacity: isActivated ? 1 : 0.5,
+              }}
             />
           </div>
         </div>
 
-        <div id="mission">
-          {activeMission ? (
-            <p
-              id="activemissionname"
-              style={{ fontSize: "15px" }}
-            >{`Task: ${activeMission}`}</p>
-          ) : (
-            <p>No active task</p>
-          )}
-          <button
-            id="pausedbtn"
-            // ref={pauseBtnRef}
-          >
-            {pausedBtnText}
-          </button>
+
+        <div id="mission-info" style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "10px", }}>
+          {/* Position Section */}
+          <div id="position-section" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <p id="activemissionname" style={{ fontSize: "15px", margin: 0 }}>
+              {activePosition ? `Position: ${activePosition}` : ""}
+            </p>
+          </div>
+
+          {/* Task Section */}
+          <div id="task-section" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <p id="activemissionname" style={{ fontSize: "15px", margin: 0 }}>
+              {activeMission ? `Task: ${activeMission}` : "No active task"}
+            </p>
+          </div>
+        </div>
+
+        <div>    <button id="pausedbtn">{pausedBtnText}</button>
         </div>
         <div id="setting">
           {/* { <img
@@ -517,24 +678,24 @@ const Header = ({ toggleMenu, toggleLaunchers }) => {
             <div style={styles.cap}></div>
           </div>
         </div>
-        <div className="toggle-container">
-            <label className="toggle-switch">
-                <input
-                    type="checkbox"
-                    checked={isHoldActive}
-                    onChange={toggleHold}
-                    disabled={loading}
-                />
-                <span className="slider" />
-            </label>
-            <span className="status-label">
-                {loading
-                    ? "Processing..."
-                    : isHoldActive
-                    ? "Realese Cobot"
-                    : "Hold Cobot"}
-            </span>
-        </div>
+        {/* <div className="toggle-container">
+          <label className="toggle-switch">
+            <input
+              type="checkbox"
+              checked={isHoldActive}
+              onChange={toggleHold}
+              disabled={loading}
+            />
+            <span className="slider" />
+          </label>
+          <span className="status-label">
+            {loading
+              ? "Processing..."
+              : isHoldActive
+                ? "Realese Cobot"
+                : "Hold Cobot"}
+          </span>
+        </div> */}
       </div>
     </div>
   );

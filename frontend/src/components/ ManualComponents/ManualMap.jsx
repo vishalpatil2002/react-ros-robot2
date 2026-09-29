@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ROSLIB from "roslib";
+import ROSLIB, { Topic } from "roslib";
 import _ from "lodash";
 import "../../styles/styles.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -305,13 +305,26 @@ const ManualMap = ({ }) => {
         width: 650,
         height: 500,
       });
-
-      const gridClient = new ROS2D.OccupancyGridClient({
+ 
+     const gridClient = new ROS2D.OccupancyGridClient({
         ros: ros,
         rootObject: viewer.scene,
-        image: "turtlebot.png", //Need to add an image of the actual Robot (small and concise, it can be a waffle img)
         continuous: true,
       });
+    //  new ROS2D.OccupancyGridClient({
+    //   ros:ros,
+    //   rootObject:viewer.scene,
+    //   topic:'move_base/local_costmap/costmap',
+    //   continuous:true,
+    //  })
+     new ROS2D.OccupancyGridClient({
+      ros:ros,
+      rootObject:viewer.scene,
+      topic:'/map2',
+      continuous:true,
+     })
+
+
       // let robotMarker = new ROS2D.ArrowShape({
       //   size: 2.0,
       //   strokeSize: 0.05,

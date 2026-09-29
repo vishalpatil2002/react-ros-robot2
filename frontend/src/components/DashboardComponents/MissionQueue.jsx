@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { MissionContext } from "../../context/MissionContext";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
@@ -10,31 +10,34 @@ const port = config.PORT;
 const socket = io(`http://${ip}:${port}`);
 
 const MissionQueue = () => {
-  const { activeMission } = useContext(MissionContext);
-  const [queue, setQueue] = useState([]); // Holds the list of positions
-  const [currentPositionIndex, setCurrentPositionIndex] = useState(0); // Tracks the current position
-  const [completedPositions, setCompletedPositions] = useState([]); // Tracks completed positions
-  const [abortedPositions, setAbortedPositions] = useState([]); // Tracks aborted positions
-  const [status, setStatus] = useState(""); // Tracks mission status
-  const isInitialLoad = useRef(true); // Tracks initial load
+  const { activeMission, activeQueuePosition } = useContext(MissionContext);
+  const [queue, setQueue] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(null);
+  const [completedPositions, setCompletedPositions] = useState([]);
+  const [status, setStatus] = useState("");
 
-  // Fetch mission data from the backend
   useEffect(() => {
     const fetchMissionData = async (mission) => {
       try {
-        const response = await axios.get(
-          `http://${ip}:${port}/api/missionData`
-        );
+        const response = await axios.get(`http://${ip}:${port}/api/missionData`);
         const missionData = response.data.find(
-          (missionItem) => missionItem.queueData.missionName === mission
+          (item) => item.queueData.missionName === mission
         );
+
         if (missionData) {
           const positionIds = missionData.queueData.queue;
+
           const tooltipResponse = await axios.post(
             `http://${ip}:${port}/api/missiontoolip`,
             { tooltipMissionName: positionIds }
           );
-          setQueue(tooltipResponse.data.searchResults); // Set the queue of positions
+
+          setQueue(tooltipResponse.data.searchResults);
+
+          const savedCompleted = JSON.parse(
+            localStorage.getItem(`completedPositions_${mission}`)
+          ) || [];
+          setCompletedPositions(savedCompleted);
         }
       } catch (error) {
         console.error("Error fetching mission data:", error);
@@ -44,124 +47,79 @@ const MissionQueue = () => {
     if (activeMission && activeMission !== "No active task") {
       fetchMissionData(activeMission);
     } else {
-      setQueue([]); // Clear the queue if no mission is active
+      setQueue([]);
+      setCompletedPositions([]);
+      setCurrentIndex(null);
     }
   }, [activeMission]);
 
-  // Restore states from localStorage when activeMission changes
   useEffect(() => {
-    if (
-      isInitialLoad.current &&
-      activeMission &&
-      activeMission !== "No active task"
-    ) {
-      const savedCurrentIndex =
-        JSON.parse(
-          localStorage.getItem(`currentPositionIndex_${activeMission}`)
-        ) || 0;
-      const savedCompleted =
-        JSON.parse(
-          localStorage.getItem(`completedPositions_${activeMission}`)
-        ) || [];
-      const savedAborted =
-        JSON.parse(localStorage.getItem(`abortedPositions_${activeMission}`)) ||
-        [];
-
-      // Ensure completedPositions only includes positions before the currentPositionIndex
-      const validCompletedPositions = savedCompleted.filter(
-        (index) => index < savedCurrentIndex
-      );
-
-      // Log the restored values
-      console.log("Restored currentPositionIndex:", savedCurrentIndex);
-      console.log(
-        "Restored completedPositions (valid):",
-        validCompletedPositions
-      );
-      console.log("Restored abortedPositions:", savedAborted);
-
-      setCurrentPositionIndex(savedCurrentIndex);
-      setCompletedPositions(validCompletedPositions);
-      setAbortedPositions(savedAborted);
-
-      // Mark initial load as complete
-      isInitialLoad.current = false;
-    }
-  }, [activeMission]);
-
-  // Handle WebSocket updates
-  useEffect(() => {
-    const handleStatusUpdate = (data) => {
-      const newStatus = data.status;
-      setStatus(newStatus); // Update the status box
-    };
-
-    const handleIndexUpdate = (data) => {
-      console.log("WebSocket Data:", data); // Log the WebSocket data
-      const newIndex = data.index;
-      const previousIndex = currentPositionIndex; // Save the previous index
-
-      // Update the current position index
-      setCurrentPositionIndex(newIndex);
-
-      // Mark the previous position as completed
-      if (
-        previousIndex < newIndex &&
-        !completedPositions.includes(previousIndex)
-      ) {
+    if (!queue.length) return;
+  
+    if (activeQueuePosition === "No Active Tasks") {
+      const lastIndex = queue.length - 1;
+      if (!completedPositions.includes(lastIndex)) {
         setCompletedPositions((prev) => {
-          const updated = [...prev, previousIndex];
-          console.log("Completed Positions:", updated); // Log the updated completed positions
+          const updated = [...prev, lastIndex];
+          localStorage.setItem(
+            `completedPositions_${activeMission}`,
+            JSON.stringify(updated)
+          );
           return updated;
         });
       }
+      setCurrentIndex(null);
+      return;
+    }
+  
+    const index = queue.findIndex(
+      (name) => name.toLowerCase() === activeQueuePosition?.toLowerCase()
+    );
+    if (index === -1) return;
+  
+    if (currentIndex !== null && index > currentIndex) {
+      if (!completedPositions.includes(currentIndex)) {
+        setCompletedPositions((prev) => {
+          const updated = [...prev, currentIndex];
+          localStorage.setItem(
+            `completedPositions_${activeMission}`,
+            JSON.stringify(updated)
+          );
+          return updated;
+        });
+      }
+    }
+  
+    setCurrentIndex(index);
+  }, [activeQueuePosition, queue]);
+  
+
+  useEffect(() => {
+    const handleStatusUpdate = (data) => {
+      setStatus(data.status);
     };
 
-    // Set up WebSocket listeners
     socket.on("statusUpdate", handleStatusUpdate);
-    socket.on("indexUpdate", handleIndexUpdate);
 
-    // Clean up WebSocket listeners
     return () => {
       socket.off("statusUpdate", handleStatusUpdate);
-      socket.off("indexUpdate", handleIndexUpdate);
     };
-  }, [currentPositionIndex, completedPositions]);
+  }, []);
 
-  // Persist states to localStorage whenever they change
   useEffect(() => {
-    if (activeMission && activeMission !== "No active task") {
-      localStorage.setItem(
-        `currentPositionIndex_${activeMission}`,
-        JSON.stringify(currentPositionIndex)
-      );
-      localStorage.setItem(
-        `completedPositions_${activeMission}`,
-        JSON.stringify(completedPositions)
-      );
-      localStorage.setItem(
-        `abortedPositions_${activeMission}`,
-        JSON.stringify(abortedPositions)
-      );
-    }
-  }, [
-    currentPositionIndex,
-    completedPositions,
-    abortedPositions,
-    activeMission,
-  ]);
-
-  // Reset everything when the mission is completed
-  useEffect(() => {
-    if (status === "Completed" && completedPositions.length === queue.length) {
-      setCurrentPositionIndex(0);
+    if (!queue.length || !activeQueuePosition || activeQueuePosition === "No Active Tasks") return;
+  
+    const index = queue.findIndex(
+      (name) => name.toLowerCase() === activeQueuePosition?.toLowerCase()
+    );
+  
+    if (index === 0 && completedPositions.length > 0) {
+      console.log(" New mission started, clearing old completed positions");
       setCompletedPositions([]);
-      setAbortedPositions([]);
-      localStorage.removeItem(`currentPositionIndex_${activeMission}`);
       localStorage.removeItem(`completedPositions_${activeMission}`);
-      localStorage.removeItem(`abortedPositions_${activeMission}`);
     }
-  }, [status, completedPositions, queue.length, activeMission]);
+  }, [activeQueuePosition, queue]);
+  
 
   return (
     <div
@@ -188,6 +146,7 @@ const MissionQueue = () => {
       >
         Current Mission Queue
       </div>
+
       <div className="queue-content" style={{ marginTop: "10px" }}>
         {queue.length > 0 ? (
           <>
@@ -201,6 +160,7 @@ const MissionQueue = () => {
                   width: "250px",
                   height: "35px",
                   textAlign: "center",
+                  lineHeight: "35px",
                 }}
               >
                 MISSION: {activeMission}
@@ -212,6 +172,7 @@ const MissionQueue = () => {
                   borderRadius: "5px",
                   width: "200px",
                   textAlign: "center",
+                  lineHeight: "35px",
                 }}
               >
                 Total Positions: {queue.length}
@@ -224,6 +185,7 @@ const MissionQueue = () => {
                 overflowY: "auto",
                 width: "200px",
                 height: "220px",
+                marginTop: "20px",
               }}
             >
               {queue.map((positionName, idx) => (
@@ -243,27 +205,28 @@ const MissionQueue = () => {
                       whiteSpace: "nowrap",
                       overflow: "hidden",
                       textOverflow: "ellipsis",
+                      backgroundColor:
+                        idx === currentIndex ? "#d4f7d4" : "white",
                       color:
-                        idx === currentPositionIndex
+                        idx === currentIndex
                           ? "green"
-                          : idx < currentPositionIndex
-                          ? "lightgrey"
-                          : "info",
+                          : completedPositions.includes(idx)
+                          ? "gray"
+                          : "black",
+                      fontWeight: idx === currentIndex ? "bold" : "normal",
                     }}
                   >
                     {positionName}
                   </Button>
-                  {completedPositions.includes(idx) && (
+                  {/* {completedPositions.includes(idx) && (
                     <span style={{ marginLeft: "10px", color: "green" }}>
                       ✔️
                     </span>
-                  )}
-                  {abortedPositions.includes(idx) && (
-                    <span style={{ marginLeft: "10px", color: "red" }}>❌</span>
-                  )}
+                  )} */}
                 </div>
               ))}
             </div>
+
             <div
               id="status"
               style={{
