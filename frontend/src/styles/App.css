@@ -1,0 +1,169 @@
+.App {
+  font-family: "Times New Roman", serif, ;
+  user-select: none;
+}
+
+.App {
+  transition: margin-left 0.3s;
+}
+
+.launch-open .App {
+  margin-left: 550px;
+}
+
+.menu-open .App {
+  margin-left: 250px;
+}
+
+.body-container {
+  transition: margin-left 0.3s ease;
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  margin-top: 70px;
+  font-family: "Times New Roman", serif;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1500px) {
+  .dashboard {
+    margin-top: 80px;
+  }
+
+  .mission-control {
+    height: 80vh;
+  }
+}
+
+@media (max-width: 1450px) {
+  .map-width-small {
+    width: 518px !important;
+  }
+
+  .buttons-width-small {
+    width: 517px !important;
+  }
+
+  .battery-management-width-small {
+    width: 475px !important;
+  }
+}
+
+.mission-control {
+  margin-top: 80px;
+  height: 70vh;
+}
+
+.top-row,
+.middle-row,
+.bottom-row {
+  /* display: flex; */
+  padding-left: 10px;
+  margin-top: 10px;
+  gap: 20px;
+}
+
+.manual-row {
+  margin-top: 100px;
+  display: flex;
+  padding-left: 100px;
+}
+
+#map-box {
+  border: 1px solid black;
+  height: 400px;
+  width: 620px;
+  background-color: white;
+}
+
+.battery-management-box,
+.mission-logs-box,
+.mission-queue-box {
+  border: 1px solid black;
+  height: 400px;
+  width: 620px;
+  box-sizing: border-box;
+}
+
+.mission-logs-box{
+  background-image: linear-gradient(135deg, #ece1d6 0%, #e7dad0 100%);
+  color: #4a4a4a;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+.mission-queue-box{
+  background-image: linear-gradient(135deg, #ece1d6 0%, #e7dad0 100%);
+
+}
+.connection-to-robot-box {
+  border: 1px solid black;
+  height: 300px;
+  width: 1259px;
+  box-sizing: border-box;
+}
+
+h3 {
+  margin-top: 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+#capture {
+  height: 50px;
+  position: relative;
+  left: 100px;
+  top: 80px;
+  width: 240px;
+  /* background-color: rgb(88, 207, 88); */
+  background-color: rgb(11, 202, 97);
+  background-color: #d4a185;
+  color: #ffffff;
+  border: none;
+}
+
+#capture:hover {
+  background-color: #c4937a;
+}
+
+.btn-link :hover {
+  /* color: transparent; */
+  background-color: none;
+}
+
+.btn :hover {
+  color: none;
+  background-color: none;
+}
+
+.duration {
+  border: 1px solid #d4b4a2;
+  border-radius: 15px;
+  width: 120px;
+  background-color: #d6d2d0;
+}
+
+.received-buttons::-webkit-scrollbar{
+  width:5px
+}
+
+.received-buttons::-webkit-scrollbar-thumb{
+  background-color: #888;
+  border-radius: 6px;
+  border: 3px solid #666464;
+}
+
+.received-buttons::-webkit-scrollbar-thumb:hover{
+  background-color: #555;
+}

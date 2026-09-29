@@ -1,0 +1,470 @@
+#app {
+  display: flex;
+  justify-content: space-around;
+  /* border: 1px solid black; */
+}
+
+.container {
+  border: 1px solid black;
+  border-radius: 15px;
+  width: 350px;
+  height: 520px;
+  /* margin-top: 8px; */
+  padding: 0px;
+  position: relative;
+  margin-left: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  /* background-color: #f9f9f9; */
+}
+
+#position-container {
+  border: 1px solid black;
+  border-radius: 15px;
+  width: 300px;
+  height: 520px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#queue {
+  border: 1px solid black;
+  border-radius: 15px;
+  width: 350px;
+  height: 520px;
+  position: relative;
+  margin-left: 40px;
+}
+
+#queuePositions {
+  margin-top: 40px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+#missionQueue {
+  width: 360px;
+  height: 520px;
+  border: 1px solid black;
+  margin-left: 40px;
+  border-radius: 15px;
+}
+
+#queue-header {
+  text-align: center;
+  /* position: relative; */
+  /* top: 8px; */
+  margin-top: 25px;
+  font-size: 22px;
+
+}
+
+#position-header{
+  margin-top: 25px;
+  font-size: 22px;
+  
+}
+
+.missionHeader {
+  font-size: 22px;
+  /* font-weight: bold; */
+  margin-top: 25px;
+  text-align: center;
+  /* margin-bottom: 20px; */
+}
+
+#missQueueHeader {
+  margin-top: 25px;
+  font-size: 22px;
+  text-align: center;
+
+}
+.activate-button {
+  display: block;
+  /* margin-bottom: 20px; */
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  max-width: 190px;
+}
+
+.activate-button:hover {
+  background-color: #23abb0;
+}
+
+.toast-container {
+  /* width: auto; */
+  position: fixed;
+  /* top: 9%; */
+  left: 50%;
+  /* transform: translate(-50%, -50%); */
+}
+
+.save-task {
+  background-color: rgb(0, 172, 193);
+  background-color: #d4a185;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  height: 50px;
+  margin-left: 100px;
+}
+
+.save-task:hover {
+  background-color: rgba(0, 255, 81, 0.56);
+  background-color: #c4937a;
+
+}
+
+.tasks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.task-button {
+  margin-right: 10px;
+  padding: 5px 10px;
+  background-color: #007bff;
+  background-color: #f2e1b3;
+  background-color: #d6d2d0;
+  color: white;
+  color: #333333;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  max-width: 150px;
+  width: 150px;
+  margin-top: 6px;
+}
+
+.task-button:hover {
+  background-color: #533ebf;
+  background-color: #c4937a;
+
+}
+
+#positions {
+  background-color: #d6d2d0;
+}
+
+#positions:hover {
+  background-color: #c4937a;
+}
+
+.info-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: black;
+  margin-left: 20px;
+  margin-bottom: 5px;
+}
+
+.info-button:hover {
+  background-color: #14b3d3;
+}
+
+.delete-button {
+  background-color: #007bff;
+}
+
+.delete-button:hover {
+  background-color: green;
+}
+
+/* .delete {
+  box-shadow: 1px 1px 1px #6f75cd;
+} */
+
+.tooltip {
+  position: absolute;
+  background-color: #333;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+.tooltip ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tooltip li {
+  margin-bottom: 5px;
+}
+
+#activemissionname {
+  /* margin-top: 20px; */
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  overflow-y: hidden;
+}
+
+.div-button {
+  height: 380px;
+  width: 350px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 15px;
+}
+
+#missionNameInput {
+  width: 320px;
+  border-radius: 5px;
+  background: rgb(249, 250, 250);
+  border: 1px solid rgb(121, 127, 132);
+  font-size: 16px;
+  height: 40px;
+  line-height: 24px;
+  padding: 7px 8px;
+  color: rgb(8, 9, 10);
+  margin-top: 15px;
+  box-shadow: 1px 1px 1px #6f75cd;
+}
+
+#missionNameInput:focus {
+  background-color: #fff;
+  border-color: #3b49df;
+  box-shadow: 1px 1px 0 #3b49df;
+}
+
+#submitqueue {
+  background-color: rgb(0, 172, 193);
+  background-color: #d4a185;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  margin-left: 5px;
+  color: white
+}
+#tasks-dndDiv{
+  border: 2px dotted black;
+  height:80px;
+  text-align: center;
+  padding-top: 5px;
+  width: auto;
+  margin-top: 15px;
+  border-radius: 10px;
+}
+#task-dndHeader{
+  margin-top: 15px;
+  font-size: 13px;
+}
+#submitqueue:hover {
+  background-color: #c4937a;
+}
+
+#datepicker {
+  margin-left: 10px;
+  margin-top: 25px;
+}
+
+#missionQueueButtons {
+  max-height: 380px;
+  margin-top: 15px;
+  margin-left: 20px;
+  overflow-y: auto;
+}
+
+.div-button::-webkit-scrollbar {
+  width: 4px;
+}
+
+.div-button::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 6px;
+  border: 3px solid #666464;
+}
+
+.div-button::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+#position-div {
+  width: 300px;
+}
+
+#position-div::-webkit-scrollbar {
+  width: 4px;
+}
+
+#position-div::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 6px;
+  border: 3px solid #666464;
+}
+
+#position-div::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+#missionQueueButtons::-webkit-scrollbar {
+  width: 4px;
+}
+
+#missionQueueButtons::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 6px;
+  border: 3px solid #666464;
+}
+
+#missionQueueButtons::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+
+#queuePositions::-webkit-scrollbar {
+  width: 4px;
+}
+
+#queuePositions::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 6px;
+  border: 3px solid #666464;
+}
+
+#queuePositions::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+
+/* @media screen and (max-width: 1450px) {
+  .container {
+    width: 450px;
+  }
+
+  .container.menu-open {
+    width: 350px;
+  }
+
+  #position-container {
+    width: 300px;
+  }
+
+  #position-container.menu-open {
+    width: 250px;
+  }
+
+  #queue {
+    width: 350px;
+  }
+
+  #queue.menu-open {
+    width: 300px;
+  }
+
+  #missionQueue {
+    width: 360px;
+  }
+
+  .activate-button,
+  .save-task {
+    max-width: 100%;
+  }
+
+  .div-button {
+    width: 100%;
+    max-height: 350px;
+    overflow-y: auto;
+  }
+} */
+
+@media only screen and (min-width: 200px) and (max-width: 1500px) {
+  .container {
+    width: 300px;
+  }
+
+  .container.menu-open {
+    width: 350px;
+  }
+
+  #position-container {
+    width: 250px;
+  }
+
+  #position-container.menu-open {
+    width: 250px;
+  }
+
+  #position-div {
+    width: 250px;
+  }
+
+  #queue {
+    width: 300px;
+  }
+
+  #queue.menu-open {
+    width: 300px;
+  }
+
+  #missionNameInput {
+    margin-top: 15px;
+    width: 275px;
+  }
+
+  #queuePositions {
+    max-height: 270px;
+  }
+
+  #missionQueue {
+    width: 280px;
+  }
+
+  #missQueueHeader {
+    margin-top: 25px;
+    font-size: 22px;
+  }
+
+  #queue-header {
+    margin-top: 25px;
+    font-size: 22px;
+  
+  }
+
+  #datepicker {
+    margin-left: 28px;
+  }
+
+  #submitqueue {
+    margin-top: 10px;
+    margin-left: 65px;
+  }
+
+  #missionQueueButtons {
+    max-height: 320px;
+  }
+
+
+  .save-task {
+    max-width: 100%;
+    margin-left: 70px;
+  }
+
+  .div-button {
+    width: 100%;
+    max-height: 350px;
+    overflow-y: auto;
+  }
+}

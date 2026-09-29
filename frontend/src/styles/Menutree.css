@@ -1,0 +1,133 @@
+.navcontainer {
+  height: 120vh;
+  width: 230px;
+  background-color: #c5dbff;
+  background-color: #c87d4c;
+  background-color: #f8f4f0;
+  color: #4a4a4a;
+  border-right: 1px solid #d4b4a2;
+  box-shadow: 0px 4px 6px rgba(212, 161, 133, 0.6), 0px 0px 10px rgba(212, 161, 133, 0.3);
+  /* overflow-y: auto; */
+  /* transition: transform 0.3s ease; */
+  /* transform: translateX(0); */
+  position: fixed;
+  top: 65px;
+  left: 0;
+  z-index: 1000;
+}
+
+.nav-option :hover {
+  background-color: #ede0d6;
+  color: #2a2a2a;
+}
+
+@media only screen and (min-width: 200px) and (max-width: 1500px) {
+  .navcontainer {
+    top: 80px;
+  }
+}
+/* @media only screen and (min-width: 200px) and (max-width: 1500px) {
+  .navcontainer{
+    width: ;
+  }
+} */
+.navclose {
+  transform: translateX(-230px);
+}
+
+.nav {
+  height: 100%;
+  padding: 0;
+}
+
+.nav-upper-options {
+  position: relative;
+  right: 10px;
+  width: 100%;
+  font-size: 17px;
+}
+
+/* .nav-option {
+  display: flex;
+  padding: 10px 15px;
+  color: #000;
+  color: #ffffff;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+} */
+
+.nav-option img.nav-img {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.nav-option.active-link {
+  background-color: #182d30;
+  color: #fff;
+}
+
+.nav-option.active-link img.nav-img {
+  filter: invert(1);
+}
+
+.active-link {
+  border-left: 4px solid #d4a185;
+  box-shadow: 4px 4px 6px rgba(125, 8, 221, 0.1);
+
+  background-color: #9ac1fe;
+  background-color: #b97746;
+  background-color: #e2d1c3;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.menu-tree-container {
+  display: flex;
+  height: 100%;
+}
+
+.vertical-tabs {
+  display: flex;
+  flex-direction: row;
+  /* Row flex for tab list and tab panels */
+  width: 100%;
+}
+
+.vertical-tab-list {
+  display: flex;
+  flex-direction: column;
+  /* Arrange tabs vertically */
+  width: 200px;
+  /* Set a fixed width for the tab list */
+  border-right: 1px solid #ccc;
+  /* Add a separator */
+  margin-right: 10px;
+}
+
+.vertical-tab-list .react-tabs__tab {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  background-color: #f0f0f0;
+}
+
+.vertical-tab-list .react-tabs__tab--selected {
+  background-color: #d4a5ff;
+  /* Highlight selected tab */
+  color: white;
+}
+
+.tab-img {
+  margin-right: 8px;
+  width: 20px;
+  /* Adjust the image size */
+  height: 20px;
+}
+
+.tab-content {
+  padding: 20px;
+  width: 100%;
+}

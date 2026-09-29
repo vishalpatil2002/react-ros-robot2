@@ -1,0 +1,43 @@
+.sidebar {
+  width: 250px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: -250px; /* Start offscreen */
+  background-color: #333;
+  color: #fff;
+  transition: left 0.3s ease;
+}
+
+.sidebar.open {
+  left: 0; /* Slide in when open */
+}
+
+.sidebar-header {
+  padding: 20px;
+  text-align: center;
+  background-color: #222;
+}
+
+.sidebar-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar-list li {
+  padding: 10px;
+}
+
+.sidebar-list li a {
+  color: #fff;
+  text-decoration: none;
+  display: block;
+}
+
+.sidebar-list li a:hover {
+  background-color: #555;
+}
+
+.sidebar-list li a.active {
+  background-color: #444;
+}

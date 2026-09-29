@@ -1,0 +1,36 @@
+/* Responsivness for all the components */
+
+/* Responsivness for Mobile */
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  #navbar {
+    width: 100%;
+  }
+
+  #left {
+    width: 40%;
+    height: 80px;
+  }
+
+  #right {
+    width: 60%;
+  }
+
+  #playpausebuttons {
+    width: 150px;
+  }
+
+  #mission {
+    width: 180px;
+    margin-left: 15px;
+  }
+
+  #activemissionname {
+    font-size: 3px;
+  }
+}
+@media (max-width: 1250px) {
+  #toast {
+    margin-left: 0px;
+    margin-top: 55px;
+  }
+}

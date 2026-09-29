@@ -1,0 +1,54 @@
+#main {
+  margin: 150px 40px;
+  width: 900px;
+  height: 470px;
+  border: 1px solid rgb(218, 208, 208);
+  border-radius: 15px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1), 0 6px 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+#activateMission {
+  margin-top: 20px;
+  position: relative;
+  left: 42%;
+  background-color: #d4a185;
+}
+
+#activateMission:hover {
+  background-color: #c4937a;
+}
+
+#tasks {
+  margin-top: 20px;
+  width: 900px;
+  height: 280px;
+  overflow: auto;
+  /* position: relative; */
+  /* left: 32%; */
+  text-align: center;
+}
+
+#tasks::-webkit-scrollbar{  
+  width: 4px;
+}
+
+#tasks::-webkit-scrollbar-thumb{
+  background-color: #888;
+  border-radius: 6px;
+  border: 3px solid #666464  ;
+}
+#tasks::-webkit-scrollbar-thumb:hover{
+  background-color: #555;
+}
+.task-button {
+  background-color: #d6d2d0;
+  border: 1px solid #d4b4a2,
+
+}
+
+.task-button:hover {
+  background-color: #c4937a;
+
+}
+
+/*Adding a comment for visibility sunday_16 branch */

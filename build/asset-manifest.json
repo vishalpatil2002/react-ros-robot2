@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/static/css/main.0d511edc.css",
+    "main.js": "/static/js/main.fee7f1c5.js",
+    "static/js/453.e9000648.chunk.js": "/static/js/453.e9000648.chunk.js",
+    "static/media/fa-solid-900.ttf": "/static/media/fa-solid-900.bacd5de623fb563b961a.ttf",
+    "static/media/fa-brands-400.ttf": "/static/media/fa-brands-400.60127e352b7a11f7f1bc.ttf",
+    "static/media/fa-solid-900.woff2": "/static/media/fa-solid-900.4d986b00ff9ca3828fbd.woff2",
+    "static/media/fa-brands-400.woff2": "/static/media/fa-brands-400.455ea818179b4def0c43.woff2",
+    "static/media/fa-regular-400.ttf": "/static/media/fa-regular-400.eb91f7b948a42799f678.ttf",
+    "static/media/MissionControl.png": "/static/media/MissionControl.8653d9d7d30d3e66754a.png",
+    "static/media/Dashboard.png": "/static/media/Dashboard.81741918986ede40e16b.png",
+    "static/media/fa-regular-400.woff2": "/static/media/fa-regular-400.21cb8f55d8e0c5b89751.woff2",
+    "static/media/ManualControl.png": "/static/media/ManualControl.1ed33f6d0c23c9343c3f.png",
+    "static/media/joy-base.png": "/static/media/joy-base.5c44b324176a946a3c8d.png",
+    "static/media/fa-v4compatibility.ttf": "/static/media/fa-v4compatibility.c8e090db312b0bea2aa2.ttf",
+    "static/media/ham.png": "/static/media/ham.7633904e25422ab6dbfb.png",
+    "static/media/fa-v4compatibility.woff2": "/static/media/fa-v4compatibility.cf7f5903d06b79ad60f1.woff2",
+    "index.html": "/index.html",
+    "main.0d511edc.css.map": "/static/css/main.0d511edc.css.map",
+    "main.fee7f1c5.js.map": "/static/js/main.fee7f1c5.js.map",
+    "453.e9000648.chunk.js.map": "/static/js/453.e9000648.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0d511edc.css",
+    "static/js/main.fee7f1c5.js"
+  ]
+}

@@ -1,0 +1,305 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  background-color: #f0f0f0;
+  background: linear-gradient(87.4deg, rgb(255, 241, 165) 1.9%, rgb(200, 125, 76) 49.7%, rgb(83, 54, 54) 100.5%);
+  background-image: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
+  color: #4a4a4a;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-image: linear-gradient(135deg, #1a2b3c, #042159);
+    color: #dadada;
+  }
+}
+
+
+#navbar {
+  width: 100%;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  background-color: #042159;
+  background-color: #a27e52;
+  color: #ffffff;
+  background-color: #e2d1c3;
+  color: #4a4a4a;
+  border: none;
+}
+
+#navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 20px;
+}
+
+#left {
+  width: 40%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+}
+
+#right {
+  width: 60%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+#logo {
+  width: 70px;
+  height: 35px;
+  color: white;
+  color: #4a4a4a;
+  border-radius: 15px 15px;
+  text-align: center;
+  font-size: 20px;
+  margin-left: 15px;
+  margin-bottom: 13px;
+}
+
+.icn {
+  height: 50px;
+}
+
+.menuicn {
+  cursor: pointer;
+}
+
+.icn1 {
+  height: 30px;
+}
+
+#name {
+  height: 25px;
+  width: 230px;
+  display: block;
+  color: white;
+  color: #4a4a4a;
+  /* border: 1px solid black; */
+  text-align: center;
+  margin-right: 15px;
+  font-size: 15px;
+  /* margin-top: 6px; */
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.icn2 {
+  height: 30px;
+  margin-left: 20px;
+  background-color: none;
+}
+
+#playpausebuttons {
+  width: 300px;
+}
+
+#playbutton {
+  display: block;
+  font-size: 15px;
+}
+
+.icn3 {
+  height: 50px;
+  margin-left: 15px;
+}
+
+#mission {
+  display: flex;
+  font-size: 15px;
+  align-items: center;
+  color: #4a4a4a;
+  justify-content: space-around;
+  /* border: 1px solid #b3896e; */
+  /* Slightly darker shade for border */
+  background-color: #ede0d6;
+  border-radius: 10px;
+  /* Warm accent color */
+  width: 290px;
+  height: 40px;
+  margin-right: 15px;
+
+}
+
+#pausedbtn {
+  width: 80px;
+  height: 25px;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+p {
+  margin-top: 11px;
+}
+
+#battery {
+  border: 1px solid black;
+  border-radius: 15px;
+  width: 55px;
+  text-align: center;
+  color: black;
+}
+
+#playpausebuttons {
+  display: flex;
+  align-items: center;
+}
+
+#pausebutton {
+  width: 110px;
+}
+
+#emgncybutton {
+  width: 110px;
+  position: relative;
+  left: 30px;
+}
+
+#playbutton {
+  width: 110px;
+}
+
+@media only screen and (min-width: 200px) and (max-width: 1500px) {
+  #navbar {
+    height: 80px;
+    width: 100%;
+    padding: 1px 2px;
+  }
+
+  #logo {
+    width: 270px;
+  }
+
+  #name {
+    width: 250px;
+    margin-left: 5px;
+  }
+
+  #playpausebuttons {
+    display: flex;
+    align-items: center;
+    width: 250px;
+    gap: 15px;
+  }
+
+  #pausebutton {
+    width: 65px;
+  }
+
+  #emgncybutton {
+    width: 65px;
+  }
+
+  #playbutton {
+    width: 65px;
+  }
+}
+
+@media only screen and (min-width: 200px) and (max-width: 990px) {
+  #activemissionname {
+    font-size: smaller;
+    white-space: nowrap;
+    overflow-wrap: break-word;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: block;
+  }
+}
+
+
+
+/*  if the below media query is not needed you can remove if it is troubling no active task part */
+/* @media only screen and (max-width: 1075px) {
+  #menuicn {
+    width: 30px;
+    height: 30px;
+    margin: 0;
+    position: relative;
+  }
+
+  #right {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: nowrap;
+    gap: 10px;
+  }
+
+  .icn.menuicn {
+    z-index: 1;
+    position: static;
+  }
+
+  #playpausebuttons,
+  #mission,
+  #setting {
+    flex: 1;
+    min-width: 0;
+  }
+
+  #activemissionname {
+    font-size: smaller;
+    overflow: hidden;
+      white-space: nowrap;
+  text-overflow: ellipsis;
+  }
+} */
+/*  if the above media query is not needed you can remove if it is troubling no active task part */
+
+/* Styles for play and pause images */
+.icn2.menuicn {
+  cursor: pointer;
+  /* Ensure the pointer cursor on hover */
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.icn2.menuicn:hover {
+  filter: brightness(85%);
+  /* Optional: Dim the image on hover */
+}
+
+.icn2.menuicn:active {
+  transform: scale(0.95);
+  /* Optional: Scale down the image when clicked */
+}
+
+/* Example CSS for adjusting image size */
+.icn2.menuicn img {
+  width: 50px;
+  height: 50px;
+}
+
+/* Example CSS for cancel button */
+.icn3.menuicn {
+  cursor: pointer;
+  /* Ensure pointer cursor on hover */
+  transition: transform 0.2s ease, filter 0.2s ease;
+  /* Optional: Apply transition effects */
+}
+
+.icn3.menuicn:hover {
+  filter: brightness(85%);
+  /* Optional: Dim the image on hover */
+}
+
+.icn3.menuicn:active {
+  transform: scale(0.95);
+  /* Optional: Scale down the image when clicked */
+}
+
+.icn3.menuicn img {
+  width: 50px;
+  height: 50px;
+}

@@ -1,0 +1,27 @@
+#dashcomponent{
+display: flex;
+justify-content: space-evenly;
+align-items: center;
+width: 100%;
+}
+
+.components{
+    height: 60px;
+    width: 180px;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+
+}
+#compoA{
+    background-color: orange;
+}
+#compoB{
+    background-color: rgb(31, 228, 169);
+}
+#compoC{
+    background-color: rgb(245, 81, 81);
+}
+#compoD{
+    background-color: #3c7e6e;
+}

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: react-ros-robot2
+  labels:
+    app: react-ros-robot2
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: react-ros-robot2
+
+  template:
+    metadata:
+      labels:
+        app: react-ros-robot2
+
+    spec:
+      containers:
+        - name: react-ros-robot2
+          image: vishal6363/react-ros-robot2:latest
+
+          ports:
+            - containerPort: 80
+
+          imagePullPolicy: Always

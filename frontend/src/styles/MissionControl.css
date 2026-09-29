@@ -1,0 +1,34 @@
+.mission-control {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.control-panel {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 70%;
+}
+
+.taurus-control-panel {
+  width: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.control-panel > div {
+  margin-right: 20px;
+}
+
+#flowControl {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#flowControl button {
+  margin: 5px 0;
+}

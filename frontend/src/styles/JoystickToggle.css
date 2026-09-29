@@ -1,0 +1,11 @@
+.toggleButtonContanier {
+    margin-left: 50px;
+}
+
+.togglebutton {
+    background-color: #d4a185;
+}
+
+.togglebutton:hover {
+    background-color: #c4937a;
+}

@@ -1,0 +1,105 @@
+.custom-modal {
+    max-width: 100%;
+    margin: auto;
+}
+
+.modal-container {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#modal-body {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: relative;
+}
+
+/* Left section: Toolbar + Canvas */
+.left-section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-grow: 1;
+}
+
+/* Toolbar positioned at the top-left of the canvas */
+.toolbar {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 12px;
+    border-radius: 5px;
+    display: flex;
+    gap: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 50px;
+}
+
+.toolbar button {
+    background-color:#d4a185;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+    touch-action: manipulation
+}
+
+.toolbar button:hover {
+    background-color:#e09d79;
+}
+
+/* Active button state */
+.toolbar button.active {
+  background-color: #bb490b; /* Green color when active */
+  border: 2px solid #fff; /* Optional: add a border to highlight */
+}
+
+.toolbar button.active:hover {
+  background-color: #bb490b; /* Darker green when active and hovered */
+}
+
+.map-container {
+  position: relative;
+  width: 700px; /* Fixed width for canvas */
+  height: 500px; /* Fixed height */
+  border: 1px solid #ddd;
+  margin-top: 70px; /* Ensures space for toolbar */
+  overflow: hidden; /* Prevents zoomed content from overflowing */
+  touch-action: none;
+}
+
+.map-container img,
+.map-container canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Right section: Dropdown */
+.right-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: 20px;
+}
+
+/* Small and right-aligned dropdown */
+#mapSelect {
+  padding: 5px;
+  width: 120px; /* Smaller dropdown */
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+}

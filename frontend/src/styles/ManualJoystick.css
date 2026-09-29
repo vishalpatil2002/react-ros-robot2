@@ -1,0 +1,94 @@
+.joystick-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 50px auto;
+}
+
+.triangle {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  position: absolute;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.north {
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 50px 70px 50px;
+  border-color: transparent transparent #3498db transparent;
+  /* box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); */
+}
+
+.north:hover {
+  border-color: transparent transparent #2980b9 transparent;
+  transform: translateX(-50%) translateY(-5px);
+  box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.5);
+}
+
+.south {
+  bottom: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 70px 50px 0 50px;
+  border-color: #e74c3c transparent transparent transparent;
+
+  /* box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.3); */
+}
+
+.south:hover {
+  border-color: #c0392b transparent transparent transparent;
+  transform: translateX(-50%) translateY(5px);
+  box-shadow: 0px -8px 12px rgba(0, 0, 0, 0.5);
+}
+
+.east {
+  top: 50%;
+  right: -10%;
+  transform: translateY(-50%);
+  border-width: 50px 0 50px 70px;
+  border-color: transparent transparent transparent #2ecc71;
+  /* box-shadow: -4px 0px 6px rgba(0, 0, 0, 0.3); */
+}
+
+.east:hover {
+  border-color: transparent transparent transparent #27ae60;
+  transform: translateY(-50%) translateX(5px);
+  box-shadow: -8px 0px 12px rgba(0, 0, 0, 0.5);
+}
+
+.west {
+  top: 50%;
+  left: -10%;
+  transform: translateY(-50%);
+  border-width: 50px 70px 50px 0;
+  border-color: transparent #f1c40f transparent transparent;
+  /* box-shadow: 4px 0px 6px rgba(0, 0, 0, 0.3); */
+}
+
+.west:hover {
+  border-color: transparent #f39c12 transparent transparent;
+  transform: translateY(-50%) translateX(-5px);
+  box-shadow: 8px 0px 12px rgba(0, 0, 0, 0.5);
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: #555;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.center:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.5);
+}

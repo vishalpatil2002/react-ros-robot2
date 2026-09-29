@@ -1,0 +1,30 @@
+
+#container .button {
+  color: rgb(255, 255, 255);
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button.ter {
+  background-color: #f44336; 
+}
+button.launch{
+  background-color: #4CAF50;
+}
+
+.button-group {
+  margin-bottom: 10px; 
+}
+
+
+#left-pane, #middle-pane, #right-pane {
+  flex: 1; 
+  margin: 0 10px;
+}

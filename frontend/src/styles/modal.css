@@ -1,0 +1,88 @@
+.mb-3 {
+  margin-left: 40px;
+  border: 1px solid black;
+  text-align: center;
+  border-radius: 5px;
+  height: 50px;
+}
+
+.mb-2 {
+  border: 1px solid black;
+  text-align: center;
+  border-radius: 5px;
+  margin: 10px;
+  color: black;
+}
+
+.mb-1 {
+  border: 1px solid black;
+  text-align: center;
+  border-radius: 5px;
+  height: 50px;
+}
+
+.pos-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding: 10px 22px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  background-color: #c5dbff;
+  transition: all 0.2s ease;
+  text-align: center;
+  margin: 8px;
+  color: black;
+}
+
+/* .pos-buttons:hover {
+  background-color: #4c80d4;
+  color: black;
+} */
+
+.alert {
+  height: 50px;
+  width: 450px;
+  font-size: medium;
+  position: relative;
+  left: 15px;
+}
+
+/* .edit:hover {
+  background-color: #3b77d8;
+}
+.delete:hover {
+  background-color: #4079d6;
+} */
+
+.modal-container {
+  background-image: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
+  color: #4a4a4a;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+
+.modal-button {
+  background-color: #d4a185;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin: 5px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-button:hover {
+  background-color: #c4937a;
+}
+
+.modal-button:disabled {
+  background-color: #d3d3d3;
+  cursor: not-allowed;
+}
