@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: react-app
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: react-app
+
+  template:
+    metadata:
+      labels:
+        app: react-app
+
+    spec:
+      containers:
+        - name: react
+          image: vishal6363/react-ros-robot2:latest
+
+          ports:
+            - containerPort: 80
+
+          volumeMounts:
+            - name: shared-storage
+              mountPath: /shared
+
+      volumes:
+        - name: shared-storage
+          persistentVolumeClaim:
+            claimName: react-ros-shared-pvc
