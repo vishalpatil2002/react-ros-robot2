@@ -20,12 +20,10 @@ spec:
       containers:
         - name: ros2
           image: ros:humble
-          imagePullPolicy: IfNotPresent
 
-          command:
-            - /bin/bash
-            - -c
-            - "tail -f /dev/null"
+          command: ["/bin/bash", "-c"]
+          args:
+            - "source /opt/ros/humble/setup.bash && sleep infinity"
 
           volumeMounts:
             - name: shared-storage
